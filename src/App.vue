@@ -18,7 +18,7 @@
         <div class="locationBox">
 
           <div class="location" >
-            {{ weatherTest }}
+            {{ weatherTest.main }}
           </div>
 
           <div class="date">
@@ -53,7 +53,7 @@ export default {
       // setting in api key:
       apiKey: '2efa223f9ef044586ce8f83ccca64d0b',
       // when making requests, this is what you need to include in order to make it 
-      url_base: "api.openweathermap.org/data/2.5/",
+      url_base: "https://api.openweathermap.org/data/2.5/",
       input: '',
       // something that stores the requests 
       weatherTest: []
@@ -62,19 +62,18 @@ export default {
 
   methods: {
     fetchWeather() {
-      fetch(`${this.url_base}weather?q=${this.input}&appid=${this.apiKey}`)
+      fetch(`${this.url_base}weather?q=${this.input}&appid=${this.apiKey}`) 
       .then(res => {
         // res.clone().json()
         // troubleshooting
-        console.log(res.json())
-      })
-      .then(data => { 
+        console.log(res)
+        return res.json();
+      }).then(data => {
         this.weatherTest = data
-        console.log("data: " + this.weatherTest)
+        console.log("data: " + data)
         })
       .catch(err => console.log("there exists an error: " + err.message))
     }
-
   }
 }
 </script>
