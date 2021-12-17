@@ -16,9 +16,9 @@
       <div class="weatherWrapper"> 
 
         <div class="locationBox">
-
+          
           <div class="location" >
-            {{ weatherTest }}
+            {{ weatherTest.name }}
           </div>
 
           <div class="date">
@@ -27,13 +27,26 @@
 
           <div class="weatherBox">
 
-            <div class="temperature">
-              Temp Test
+            <!-- test to get 1 iteration of json data -->
+            <div v-for="(iterate, index) in weatherTest" :key="index">
+              {{index}}
             </div>
 
-            <div class="weather">
-              Weather Test
+            <!-- to get the second data from within the first iteration -->
+            <!-- <div v-for="(secondIterate, test) in weatherTest" :key="test">
+              <div v-for="(item, key) in secondIterate" :key="key">
+                {{key}}: {{item}}
+              </div>
+            </div> -->
+
+            <!-- <div class="temperature" v-for="(WeatherTest, index) in WeatherTest" :key="WeatherTest.main"> 
+              {{ index }} {{ WeatherTest.feels_like }}
+              {{ weatherTest.main }}
             </div>
+
+            <div class="weather" v-for="weatherInfo in WeatherTest" :key="weatherInfo.weather">  
+              {{ weatherTest.main }}
+            </div> -->
 
           </div>
         </div>
@@ -53,7 +66,7 @@ export default {
       // setting in api key:
       apiKey: '2efa223f9ef044586ce8f83ccca64d0b',
       // when making requests, this is what you need to include in order to make it 
-      url_base: "api.openweathermap.org/data/2.5/",
+      url_base: "https://api.openweathermap.org/data/2.5/",
       input: '',
       // something that stores the requests 
       weatherTest: []
@@ -62,15 +75,15 @@ export default {
 
   methods: {
     fetchWeather() {
-      fetch(`${this.url_base}weather?q=${this.input}&appid=${this.apiKey}`)
+      fetch(`${this.url_base}weather?q=${this.input}&units=imperal&appid=${this.apiKey}`) 
       .then(res => {
         // res.clone().json()
         // troubleshooting
-        console.log(res.json())
-      })
-      .then(data => { 
+        console.log(res)
+        return res.json();
+      }).then(data => {
         this.weatherTest = data
-        console.log("data: " + this.weatherTest)
+        console.log("data: " + data)
         })
       .catch(err => console.log("there exists an error: " + err.message))
     }
